@@ -30,9 +30,17 @@ jobs:
             echo "No package.json file found in the root folder."
           fi
 
-      - name: Commit changes
+      - name: Configure Git
         run: |
           git config --local user.email ${{ secrets.EMAIL_SECRET }}
           git config --local user.name "jge162"
-          git commit -am "Update package.json" --no-verify
-          git push
+
+      - name: Commit changes
+        run: |
+          git add package.json
+          git commit -m "Update package.json" --no-verify
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.WORKFLOW_SECRET }}
