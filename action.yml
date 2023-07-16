@@ -1,5 +1,5 @@
-name: 'Action-RunScript'
-description: 'Custom script execution'
+name: 'Engineering-Change/Checkout'
+description: 'Custom Org Action use'
 
 inputs:
   repository:
