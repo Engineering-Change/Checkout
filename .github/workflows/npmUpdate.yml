@@ -1,0 +1,37 @@
+name: Update Package.json
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  update_package_json:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Package.json
+        uses: Engineering-Change/Checkout@0.0.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Check for package updates
+        run: |
+          if [[ -f package.json ]]; then
+            npx npm-check-updates --upgrade --packageFile package.json
+          else
+            echo "No package.json file found in the root folder."
+          fi
+
+      - name: Commit changes
+        run: |
+          git config --local user.email ${{ secrets.EMAIL_SECRET }}
+          git config --local user.name "jge162"
+          git commit -am "Update package.json" --no-verify
+          git push
